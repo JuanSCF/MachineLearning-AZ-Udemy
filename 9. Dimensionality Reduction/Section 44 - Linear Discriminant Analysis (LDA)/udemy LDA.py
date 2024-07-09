@@ -4,7 +4,7 @@
 
 """
 
-# Principal Component Analysis (PCA)    
+# Linear Discriminant Analysis (LDA) 
 
 
 # Importar las librerías
@@ -32,17 +32,16 @@ X_test = sc_X.transform(X_test)
 # y = sc_y.fit_transform(y.reshape(-1, 1))
 
 
-# Dimensionality reduction with PCA
-from sklearn.decomposition import PCA
-pca = PCA(n_components = 2) # n_components = None para ver todas las componentes y como evoluciona la varianza acumulada
-X_train = pca.fit_transform(X_train)
-X_test = pca.transform(X_test)
-explained_variance = pca.explained_variance_ratio_
+# Dimensionality reduction with LDA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+lda = LDA(n_components = 2) # discriminante lineal discrimina una separación máxima
+X_train = lda.fit_transform(X_train, y_train)
+X_test = lda.transform(X_test)
 
 
 # Ajustar el modelo de regresión logística con el conjunto de entrenamiento
 from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(random_state = 0)
+classifier = LogisticRegression(random_state = 0) 
 classifier.fit(X_train, y_train)
 
 
@@ -70,9 +69,9 @@ plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c = ListedColormap(('red', 'green', 'blue'))(i), label = j)
-plt.title('PCA + Logistic Regression (Training set)')
-plt.xlabel('PC1')
-plt.ylabel('PC2')
+plt.title('LDA + Logistic Regression (Training set)')
+plt.xlabel('LD1')
+plt.ylabel('LD2')
 plt.legend()
 plt.show()
 
@@ -87,8 +86,8 @@ plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1], c = ListedColormap(('red', 'green', 'blue'))(i), label = j)
-plt.title('PCA + Logistic Regression (Test set)')
-plt.xlabel('PC1')
-plt.ylabel('PC2')
+plt.title('LDA + Logistic Regression (Test set)')
+plt.xlabel('LD1')
+plt.ylabel('LD2')
 plt.legend()
 plt.show()
